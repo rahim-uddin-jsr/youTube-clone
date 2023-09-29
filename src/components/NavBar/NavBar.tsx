@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { SideBarProps } from "../../Types";
 import SideBarToggle from "./SideBarToggle";
@@ -8,6 +8,7 @@ type Inputs = {
   searchRequired: string;
 };
 const NavBar: React.FC<SideBarProps> = ({ isOpen, toggleMenu }) => {
+  const [inputFocus, setInputFocus] = useState(false);
   const {
     register,
     handleSubmit,
@@ -56,11 +57,32 @@ const NavBar: React.FC<SideBarProps> = ({ isOpen, toggleMenu }) => {
           </svg>
         </div>
       </div>
-      <div className="">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex justify-center">
-          <div className="border border-gray-300 rounded-[30px] rounded-e-none overflow-hidden px-5 py-1 flex justify-center items-center">
+      <div className="w-3/6 mx-auto">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex justify-center items-center"
+        >
+          <div
+            onFocus={() => setInputFocus(true)}
+            onBlur={() => setInputFocus(false)}
+            className={`border w-[50%] ${
+              inputFocus ? "border-blue-300" : "border-gray-200"
+            } rounded-[30px] rounded-e-none overflow-hidden px-5 py-2 flex justify-center items-center w-fit`}
+          >
+            {inputFocus && (
+              <>
+                <svg
+                  className="w-4 h-4 fill-slate-500 mr-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path fill="none" d="M0 0h24v24H0z"></path>
+                  <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+                </svg>
+              </>
+            )}
             <input
-              className="border-none focus:outline-none"
+              className="border-none w-full focus:outline-none"
               type="text"
               placeholder="Search"
               {...register("search")}
@@ -68,15 +90,25 @@ const NavBar: React.FC<SideBarProps> = ({ isOpen, toggleMenu }) => {
           </div>
           <button
             type="submit"
-            className="border border-s-[0] bg-gray-50 border-gray-300 px-3 py-2 rounded-[30px] rounded-s-none"
+            className="border border-s-[0] bg-gray-50 border-gray-300 w-14 h-[42px] px-[6px] flex justify-center items-center rounded-[30px] rounded-s-none"
           >
             <svg
-              className="w-6 h-6 "
+              className="w-6 h-6 fill-slate-500"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
               <path fill="none" d="M0 0h24v24H0z"></path>
               <path d="M18.031 16.6168L22.3137 20.8995L20.8995 22.3137L16.6168 18.031C15.0769 19.263 13.124 20 11 20C6.032 20 2 15.968 2 11C2 6.032 6.032 2 11 2C15.968 2 20 6.032 20 11C20 13.124 19.263 15.0769 18.031 16.6168ZM16.0247 15.8748C17.2475 14.6146 18 12.8956 18 11C18 7.1325 14.8675 4 11 4C7.1325 4 4 7.1325 4 11C4 14.8675 7.1325 18 11 18C12.8956 18 14.6146 17.2475 15.8748 16.0247L16.0247 15.8748Z"></path>
+            </svg>
+          </button>
+          <button className="bg-gray-200 w-[40px] h-[40px] rounded-full  flex justify-center items-center ml-3">
+            <svg
+              className="w-4 h-6 cursor-pointer fill-[#202020]"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path fill="none" d="M0 0h24v24H0z"></path>
+              <path d="M11.9998 1C14.7612 1 16.9998 3.23858 16.9998 6V10C16.9998 12.7614 14.7612 15 11.9998 15C9.23833 15 6.99976 12.7614 6.99976 10V6C6.99976 3.23858 9.23833 1 11.9998 1ZM3.05469 11H5.07065C5.55588 14.3923 8.47329 17 11.9998 17C15.5262 17 18.4436 14.3923 18.9289 11H20.9448C20.4837 15.1716 17.1714 18.4839 12.9998 18.9451V23H10.9998V18.9451C6.82814 18.4839 3.51584 15.1716 3.05469 11Z"></path>
             </svg>
           </button>
         </form>
